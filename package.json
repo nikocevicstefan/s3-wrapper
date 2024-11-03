@@ -2,6 +2,8 @@
   "name": "@obelius/s3-storage",
   "private": true,
   "scripts": {
+    "prepare": "husky install",
+    "commit": "cz",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -10,9 +12,19 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "publish-packages": "turbo run build && changeset publish"
   },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "devDependencies": {
     "@changesets/cli": "^2.27.9",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@types/node": "^20.17.6",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.6",
     "prettier": "^3.3.3",
     "turbo": "^1.13.4",
     "typescript": "^5.6.3"
