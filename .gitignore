@@ -1,0 +1,9 @@
+# .npmignore
+.turbo
+coverage
+.env
+.env.*
+node_modules
+*.log
+.DS_Store
+tsconfig.tsbuildinfo
