@@ -11,7 +11,12 @@ import {
   GetObjectAclCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import type { S3ClientConfig, S3SecurityConfig, OperationOptions, S3Operation } from "@obelius/s3-storage-types";
+import type {
+  S3ClientConfig,
+  S3SecurityConfig,
+  OperationOptions,
+  S3Operation,
+} from "@obelius/s3-types";
 
 export class S3StorageClient {
   private client: S3Client;
@@ -89,13 +94,15 @@ export class S3StorageClient {
       this.security.maxFileSize &&
       options.contentLength > this.security.maxFileSize
     ) {
-      throw new Error(`File size exceeds maximum allowed size of ${this.security.maxFileSize} bytes`);
+      throw new Error(
+        `File size exceeds maximum allowed size of ${this.security.maxFileSize} bytes`
+      );
     }
 
     // Validate prefix restrictions
     if (this.security.allowedPrefixes?.length) {
-      const hasAllowedPrefix = this.security.allowedPrefixes.some(prefix => 
-        key.startsWith(prefix)
+      const hasAllowedPrefix = this.security.allowedPrefixes.some(
+        (prefix: string) => key.startsWith(prefix)
       );
       if (!hasAllowedPrefix) {
         throw new Error(`Access to prefix in key ${key} is not allowed`);
@@ -103,8 +110,8 @@ export class S3StorageClient {
     }
 
     if (this.security.deniedPrefixes?.length) {
-      const hasDeniedPrefix = this.security.deniedPrefixes.some(prefix => 
-        key.startsWith(prefix)
+      const hasDeniedPrefix = this.security.deniedPrefixes.some(
+        (prefix: string) => key.startsWith(prefix)
       );
       if (hasDeniedPrefix) {
         throw new Error(`Access to prefix in key ${key} is denied`);
@@ -119,14 +126,18 @@ export class S3StorageClient {
       }
 
       if (!roleConfig.allowedOperations.includes(operation)) {
-        throw new Error(`Operation ${operation} is not allowed for role ${options.role}`);
+        throw new Error(
+          `Operation ${operation} is not allowed for role ${options.role}`
+        );
       }
 
       if (
         roleConfig.allowedPrefixes?.length &&
-        !roleConfig.allowedPrefixes.some(prefix => key.startsWith(prefix))
+        !roleConfig.allowedPrefixes.some((prefix) => key.startsWith(prefix))
       ) {
-        throw new Error(`Access to key ${key} is not allowed for role ${options.role}`);
+        throw new Error(
+          `Access to key ${key} is not allowed for role ${options.role}`
+        );
       }
 
       if (
@@ -134,7 +145,9 @@ export class S3StorageClient {
         roleConfig.allowedContentTypes?.length &&
         !roleConfig.allowedContentTypes.includes(options.contentType)
       ) {
-        throw new Error(`Content type ${options.contentType} is not allowed for role ${options.role}`);
+        throw new Error(
+          `Content type ${options.contentType} is not allowed for role ${options.role}`
+        );
       }
 
       if (
@@ -142,7 +155,9 @@ export class S3StorageClient {
         roleConfig.maxFileSize &&
         options.contentLength > roleConfig.maxFileSize
       ) {
-        throw new Error(`File size exceeds maximum allowed size for role ${options.role}`);
+        throw new Error(
+          `File size exceeds maximum allowed size for role ${options.role}`
+        );
       }
     }
   }
@@ -156,7 +171,7 @@ export class S3StorageClient {
     contentType?: string,
     options?: OperationOptions & { bucket?: string }
   ): Promise<void> {
-    this.validateOperation('write', key, {
+    this.validateOperation("write", key, {
       ...options,
       contentType,
       contentLength: Buffer.byteLength(body as any),
@@ -180,7 +195,7 @@ export class S3StorageClient {
     key: string,
     options?: OperationOptions & { bucket?: string }
   ): Promise<Buffer> {
-    this.validateOperation('read', key, options);
+    this.validateOperation("read", key, options);
 
     const response = await this.client.send(
       new GetObjectCommand({
@@ -233,7 +248,7 @@ export class S3StorageClient {
     }
   ): Promise<string> {
     // Validate operation before generating URL
-    this.validateOperation('write', key, {
+    this.validateOperation("write", key, {
       role: options?.role,
       contentType: options?.contentType,
       contentLength: options?.maxSize,
@@ -273,7 +288,7 @@ export class S3StorageClient {
     }
   ): Promise<string> {
     // Validate operation before generating URL
-    this.validateOperation('read', key, {
+    this.validateOperation("read", key, {
       role: options?.role,
     });
 
@@ -299,14 +314,16 @@ export class S3StorageClient {
     }
   ): Promise<string> {
     // Validate operation before generating URL
-    this.validateOperation('delete', key, {
+    this.validateOperation("delete", key, {
       role: options?.role,
     });
 
     // Enforce short expiration for delete operations
     const maxDeleteExpiration = 3600; // 1 hour
     if (expiresIn > maxDeleteExpiration) {
-      throw new Error(`Delete URL expiration cannot exceed ${maxDeleteExpiration} seconds`);
+      throw new Error(
+        `Delete URL expiration cannot exceed ${maxDeleteExpiration} seconds`
+      );
     }
 
     const command = new DeleteObjectCommand({
@@ -331,7 +348,7 @@ export class S3StorageClient {
     }
   ): Promise<string> {
     // Validate operation before generating URL
-    this.validateOperation('list', prefix, {
+    this.validateOperation("list", prefix, {
       role: options?.role,
     });
 
@@ -375,14 +392,16 @@ export class S3StorageClient {
     }
   ): Promise<string> {
     // Validate operation before generating URL
-    this.validateOperation('acl_write', key, {
+    this.validateOperation("acl_write", key, {
       role: options?.role,
     });
 
     // Enforce short expiration for ACL operations
     const maxAclExpiration = 3600; // 1 hour
     if (expiresIn > maxAclExpiration) {
-      throw new Error(`ACL URL expiration cannot exceed ${maxAclExpiration} seconds`);
+      throw new Error(
+        `ACL URL expiration cannot exceed ${maxAclExpiration} seconds`
+      );
     }
 
     const command = new PutObjectAclCommand({

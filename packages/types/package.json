@@ -1,20 +1,29 @@
 {
-  "name": "@obelius/s3-storage-types",
-  "version": "0.0.1",
+  "name": "@obelius/s3-types",
+  "version": "0.1.0",
+  "description": "Type definitions for Obelius S3 Storage",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean --treeshake --sourcemap",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch --sourcemap",
     "lint": "eslint src/",
-    "clean": "rm -rf dist .turbo"
-  },
-  "devDependencies": {
-    "tsup": "^8.0.0",
-    "typescript": "^5.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
+    "clean": "rm -rf dist .turbo",
+    "prepublishOnly": "pnpm run build"
   }
 }

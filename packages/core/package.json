@@ -1,0 +1,27 @@
+{
+  "name": "@obelius/s3-core",
+  "version": "0.2.0",
+  "description": "Core S3 operations with advanced security features",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "clean": "rimraf dist",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "3.686.0",
+    "@aws-sdk/s3-request-presigner": "3.686.0",
+    "@obelius/s3-types": "workspace:*"
+  }
+}

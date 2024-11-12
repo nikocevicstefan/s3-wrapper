@@ -1,16 +1,16 @@
 {
-  "name": "@obelius/s3-storage",
+  "name": "@obelius/s3",
   "private": true,
   "scripts": {
     "prepare": "husky",
     "commit": "cz",
-    "build": "turbo run build",
+    "build": "turbo run build --filter=@obelius/s3-types --filter=@obelius/s3-core",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-    "publish-packages": "turbo run build && changeset publish"
+    "publish-packages": "changeset publish"
   },
   "config": {
     "commitizen": {

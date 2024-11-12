@@ -1,36 +1,32 @@
-# S3 Storage
+# Obelius S3 Storage
 
-This repository contains the S3 Storage wrapper package that simplifies interactions with AWS S3 across different frameworks and platforms.
+A type-safe, secure S3 storage solution with framework integrations.
 
 ## Package Structure
 
-```markdown
+```markdown 
 packages/
-  types/      # Shared TypeScript types
-  backend/
-    core/     # Core S3 interactions, presigned URLs, etc
-    express/  # Express middleware & routes
-    fastify/  # Fastify plugin & routes
-  frontend/
-    core/     # Framework-agnostic upload logic, presigned URL handling
-    react/    # React hooks & components
-    vue/      # Vue composables & components
-```
+├── types/ # @obelius/s3-types
+├── core/ # @obelius/s3-core
+├── server/ # Server integrations
+│ ├── express/ # @obelius/s3-server-express
+│ └── fastify/ # @obelius/s3-server-fastify
+└── client/ # Client integrations
+├── core/ # @obelius/s3-client-core
+├── react/ # @obelius/s3-client-react
+└── vue/ # @obelius/s3-client-vue
 
 ### Packages Overview
 
-#### Shared
+#### Core Packages
+- `@obelius/s3-types` - Shared TypeScript definitions
+- `@obelius/s3-core` - Core S3 operations with security features
 
-- `types/` - Common TypeScript type definitions shared across all packages
+#### Server Integration
+- `@obelius/s3-server-express` - Express.js middleware & routes
+- `@obelius/s3-server-fastify` - Fastify plugin & routes
 
-#### Backend
-
-- `backend/core/` - Core functionality for S3 operations including bucket management, presigned URL generation, and direct S3 interactions
-- `backend/express/` - Express.js integration providing middleware and routes for S3 operations
-- `backend/fastify/` - Fastify plugin and routes for seamless S3 integration
-
-#### Frontend
-
-- `frontend/core/` - Framework-agnostic upload logic and presigned URL handling
-- `frontend/react/` - React-specific implementations including hooks and components for S3 uploads
-- `frontend/vue/` - Vue.js composables and components for S3 file management
+#### Client Integration
+- `@obelius/s3-client-core` - Framework-agnostic client operations
+- `@obelius/s3-client-react` - React hooks & components
+- `@obelius/s3-client-vue` - Vue composables & components

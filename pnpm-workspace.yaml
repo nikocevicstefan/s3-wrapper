@@ -2,3 +2,4 @@ packages:
   - 'packages/frontend/*'
   - 'packages/backend/*'
   - 'packages/types'
+  - 'packages/core'
