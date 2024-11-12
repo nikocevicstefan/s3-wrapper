@@ -42,10 +42,10 @@ importers:
   packages/backend/core:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: ^3.0.0
+        specifier: 3.686.0
         version: 3.686.0
       '@aws-sdk/s3-request-presigner':
-        specifier: ^3.0.0
+        specifier: 3.686.0
         version: 3.686.0
       '@obelius/s3-storage-types':
         specifier: workspace:*
