@@ -4,14 +4,11 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean --treeshake --sourcemap",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch --sourcemap",
     "lint": "eslint src/",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist .turbo"
   },
   "devDependencies": {
     "tsup": "^8.0.0",

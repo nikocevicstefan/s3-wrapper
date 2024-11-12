@@ -2,7 +2,7 @@
   "name": "@obelius/s3-storage",
   "private": true,
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "commit": "cz",
     "build": "turbo run build",
     "dev": "turbo run dev",
