@@ -1,47 +1,42 @@
-name: Release
-
+name: Publish
 on:
   push:
     branches:
-      - main  # Only runs when changes are merged to main
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
-    name: Release
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
-          # This is important for changesets to work correctly
           fetch-depth: 0
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v2
         with:
           version: 8
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'pnpm'
-
-      - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      # This step either:
-      # 1. Creates a "Version Packages" PR if there are changesets
-      # 2. Publishes to npm if the "Version Packages" PR was merged
-      - name: Create Release PR or Publish
+      
+      - run: pnpm install --frozen-lockfile
+      - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm run publish-packages
+          publish: pnpm publish-packages
           commit: 'chore(release): version packages'
           title: 'chore(release): version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }} 
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Send notification on failure
+        if: failure()
+        run: |
+          echo "Publish workflow failed!"
+          # Add notification logic here if needed

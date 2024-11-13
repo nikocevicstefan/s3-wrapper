@@ -17,7 +17,6 @@ import type {
   OperationOptions,
   S3Operation,
 } from "@obelius/s3-types";
-
 export class S3StorageClient {
   private client: S3Client;
   private defaultBucket: string;
