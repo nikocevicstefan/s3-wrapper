@@ -23,5 +23,10 @@
     "@aws-sdk/client-s3": "3.686.0",
     "@aws-sdk/s3-request-presigner": "3.686.0",
     "@obelius/s3-types": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikocevicstefan/s3-wrapper.git",
+    "directory": "packages/core"
   }
 }
