@@ -1,6 +1,6 @@
 {
   "name": "@obelius/s3-core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Core S3 operations with advanced security features",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
