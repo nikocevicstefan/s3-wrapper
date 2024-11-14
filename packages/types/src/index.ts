@@ -21,7 +21,7 @@ export class StorageError extends Error {
   constructor(
     message: string,
     public code: string,
-    public statusCode?: number
+    public statusCode?: number,
   ) {
     super(message);
     this.name = "StorageError";
@@ -36,7 +36,7 @@ export interface StorageClient {
   upload(
     file: File | Buffer | Blob,
     key: string,
-    options?: UploadOptions
+    options?: UploadOptions,
   ): Promise<UploadResult>;
   download(key: string, options?: DownloadOptions): Promise<DownloadResult>;
   delete(key: string): Promise<void>;
@@ -134,17 +134,17 @@ export interface RolePermissions {
   allowedContentTypes?: string[];
 }
 
-export type S3Operation = 
-  | 'read'
-  | 'write'
-  | 'delete'
-  | 'list'
-  | 'acl_read'
-  | 'acl_write'
-  | 'presigned_upload'
-  | 'presigned_download'
-  | 'presigned_delete'
-  | 'presigned_list';
+export type S3Operation =
+  | "read"
+  | "write"
+  | "delete"
+  | "list"
+  | "acl_read"
+  | "acl_write"
+  | "presigned_upload"
+  | "presigned_download"
+  | "presigned_delete"
+  | "presigned_list";
 
 export interface OperationOptions {
   role?: string;
@@ -173,3 +173,7 @@ export interface PresignedListUrlOptions extends PresignedUrlOptions {
   maxKeys?: number;
   delimiter?: string;
 }
+
+// ============================================================================
+// End of types - using this comment to test CI
+// ============================================================================
