@@ -1,5 +1,6 @@
 packages:
-  - 'packages/types'
-  - 'packages/core'
-  - 'packages/frontend/*'
-  - 'packages/backend/*'
+  - "packages/types"
+  - "packages/core"
+  - "packages/frontend/*"
+  - "packages/backend/*"
+  - "apps/*"
