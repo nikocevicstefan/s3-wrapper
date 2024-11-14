@@ -3,42 +3,40 @@ on:
   push:
     branches:
       - release
-
+    tags:
+      - "v*.*.*"
 # Add these permissions
 permissions:
   contents: write
-  id-token: write  # Needed for npm provenance
+  id-token: write # Needed for npm provenance
   packages: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: github.ref =~ refs/tags/v.* # Ensure the job runs only if a tag is present
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
       - uses: pnpm/action-setup@v2
         with:
           version: 9
-          
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build packages
         run: |
           pnpm -F @obelius/s3-types build
           pnpm -F @obelius/s3-core build
-        
+
       - name: Publish packages
         run: pnpm publish -r --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
-
-
-
-          
